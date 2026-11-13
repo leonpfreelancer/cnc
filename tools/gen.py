@@ -109,7 +109,7 @@ def head(title, desc, path, image, extra_ld=None):
     ld = {"@context": "https://schema.org", "@type": "LocalBusiness", "name": f"{BRAND['name']} · {BRAND['city']}",
           "legalName": BRAND['legal'], "telephone": BRAND['phone_raw'],
           "address": {"@type": "PostalAddress", "addressLocality": "Chișinău", "addressCountry": "MD"},
-          "description": "Tăiere laser și CNC: mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, la comandă."}
+          "description": "Tăiere laser și frezare CNC în Chișinău: mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm, la comandă."}
     lds = [ld] + ([extra_ld] if extra_ld else [])
     return f'''<!DOCTYPE html>
 <html lang="ro">
@@ -142,14 +142,15 @@ def header(active=None):
     links = ''.join(f'<a href="/{p["slug"]}/"{" aria-current=\"page\"" if active == p["slug"] else ""}>{p["short"]}</a>' for p in PRODUCTS)
     return f'''<header class="top"><div class="wrap">
   <a class="logo" href="/" aria-label="{BRAND['name']} {BRAND['city']}, pagina principală">{logo()}<span>{BRAND['name']}<br><small>{BRAND['city']}</small></span></a>
-  <nav class="nav" aria-label="Produse">{links}<a href="/#contact">Contact</a></nav>
+  <nav class="nav" aria-label="Produse">{links}<a href="/#servicii">Frezare CNC</a><a href="/#contact">Contact</a></nav>
   <a class="btn btn-ghost btn-sm call" href="tel:{BRAND['phone_raw']}">Sună {BRAND['phone']}</a>
 </div></header>
 '''
 
 def quote_section(selected):
     opts = ''.join(f'<option{" selected" if p["form"] == selected else ""}>{p["form"]}</option>' for p in PRODUCTS)
-    opts += f'<option{" selected" if selected == "Altă comandă" else ""}>Altă comandă</option>'
+    for extra in ('Frezare CNC lemn', 'Altă comandă'):
+        opts += f'<option{" selected" if selected == extra else ""}>{extra}</option>'
     return f'''<section id="cere-pret" class="band"><div class="wrap quote">
   <div class="sec-head">
     <span class="eyebrow">Cere prețul</span>
@@ -213,7 +214,7 @@ def home():
 </article>'''
     tabs = ''.join(f'<button type="button" role="tab" aria-selected="{"true" if i == 0 else "false"}" data-model="{p["slug"]}" data-href="/{p["slug"]}/">{p["short"]}</button>' for i, p in enumerate(PRODUCTS))
     s = head(f"{BRAND['name']} {BRAND['city']} — mangaluri, rafturi pentru vin, suporturi de laptop la comandă",
-             'Atelier de tăiere laser și CNC în Chișinău: mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj. Vezi produsele în 3D și cere prețul.',
+             'Atelier de tăiere laser și frezare CNC în Chișinău: mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm. Cere prețul.',
              '/', '/assets/img/og-home.jpg')
     s += header()
     s += f'''<main>
@@ -221,7 +222,7 @@ def home():
   <div>
     <span class="eyebrow">Atelier laser · CNC · {BRAND['city']}</span>
     <h1 style="margin-top:14px">Obiecte din metal și lemn, <span class="accent">tăiate la milimetru</span></h1>
-    <p class="lead">Mangaluri, rafturi pentru vin cu nume gravat și suporturi de laptop din placaj. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
+    <p class="lead">Mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj și piese din lemn pe CNC, după desenul tău. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
     <div class="row"><a class="btn btn-primary" href="#cere-pret">Cere prețul</a><a class="btn btn-ghost" href="#produse">Vezi produsele</a></div>
   </div>
   <div>
@@ -247,10 +248,25 @@ def home():
   </ol>
 </div></section>
 
-<section><div class="wrap split" style="grid-template-columns:1fr auto">
-  <div class="sec-head" style="margin:0"><span class="eyebrow">Ai altă idee?</span><h2>Tăiem orice contur desenat</h2>
-  <p class="lead">Un logo pe metal, un nume, un decor pentru casă sau o piesă tehnică: trimite-ne o schiță, o poză sau un fișier DXF și îți spunem prețul.</p></div>
-  <a class="btn btn-primary" href="#cere-pret" data-quote="Altă comandă">Trimite ideea</a>
+<section id="servicii"><div class="wrap">
+  <div class="sec-head"><span class="eyebrow">Tăiem la comandă</span><h2>Lemn pe CNC, metal cu laser</h2>
+  <p class="lead">Pe lângă produsele de mai sus, tăiem piese după schița, poza sau fișierul tău. Dacă nu ai desen, îl facem noi în CAD.</p></div>
+  <div class="svc">
+    <article class="card"><div class="body">
+      <div class="tags"><span class="tag">Frezare CNC</span><span class="tag">Lemn</span></div>
+      <h3>Placaj, MDF, lemn masiv, plastic</h3>
+      <div class="fact"><b>900 × 600 mm</b><span>suprafața de lucru a frezei CNC</span></div>
+      <ul class="list"><li>Piese plane și decupaje: litere, panouri, cutii, mobilier mic, decor</li><li>Îmbinări fără șuruburi, ca la WOODSTAND 01</li><li>Din fișier DXF sau după schița ta</li></ul>
+      <div class="row"><a class="btn btn-primary btn-sm" href="#cere-pret" data-quote="Frezare CNC lemn">Cere prețul pentru frezare</a></div>
+    </div></article>
+    <article class="card"><div class="body">
+      <div class="tags"><span class="tag">Tăiere laser</span><span class="tag">Metal</span></div>
+      <h3>Oțel tăiat, asamblat și vopsit</h3>
+      <div class="fact"><b>De la idee la piesă</b><span>tăiere, asamblare, vopsire</span></div>
+      <ul class="list"><li>Mangaluri, rafturi, decor pentru casă și curte</li><li>Nume, monograme și logo-uri tăiate sau gravate</li><li>Vopsire electrostatică sau termorezistentă</li></ul>
+      <div class="row"><a class="btn btn-ghost btn-sm" href="#cere-pret" data-quote="Altă comandă">Trimite ideea</a></div>
+    </div></article>
+  </div>
 </div></section>
 </main>
 <div id="contact"></div>

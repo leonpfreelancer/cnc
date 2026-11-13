@@ -5,7 +5,7 @@ Rulează pe **Cloudflare Pages**: paginile sunt statice, iar formularul trimite 
 
 | Pagina | Ce are |
 | --- | --- |
-| `/` | erou cu 3D (comutare între produse), carduri, „Cum lucrăm”, formular |
+| `/` | erou cu 3D (comutare între produse), carduri, „Cum lucrăm”, servicii (frezare CNC lemn 900 × 600 mm, tăiere laser metal), formular |
 | `/mangal/` | mangal tăiat cu laser: 3D cu jar și frigărui, desfacere în piese, culori |
 | `/raft-vin/` | raft pentru vin: 3D cu sticle, **numele gravat se vede live pe capac**, culori |
 | `/suport-laptop/` | WOODSTAND 01: geometria reală din scriptul Fusion 360, cu laptop de referință |

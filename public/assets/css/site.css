@@ -96,6 +96,11 @@ section{padding:clamp(48px,7vw,96px) 0}
 .tag{font:500 12px var(--body);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
 .card .row{margin-top:auto;padding-top:6px}
 
+.svc{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.svc .fact{margin:4px 0 6px}
+.svc .fact b{font-size:30px}
+@media (max-width:760px){.svc{grid-template-columns:1fr}}
+
 /* pagina de produs */
 .p-hero{padding:clamp(20px,3vw,40px) 0 24px}
 .p-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(24px,4vw,48px);align-items:start}
