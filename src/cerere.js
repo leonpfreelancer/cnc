@@ -1,4 +1,4 @@
-// POST /api/cerere — primește cererile „Cere prețul” din site.
+// POST /api/cerere — primește cererile „Cere prețul” din site (apelat din src/worker.js).
 // Notificare: Telegram (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID) și/sau păstrare în KV (binding CERERI).
 // Fără niciuna configurată, răspunde 503 și site-ul îi arată omului numărul de telefon.
 
@@ -10,7 +10,8 @@ const json = (obj, status = 200) => new Response(JSON.stringify(obj), {
 });
 const clean = (v, n) => String(v ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n);
 
-export async function onRequestPost({ request, env }) {
+export async function handleCerere(request, env) {
+  if (request.method !== 'POST') return json({ ok: false, error: 'method' }, 405);
   let body;
   try {
     const ct = request.headers.get('content-type') || '';
@@ -54,15 +55,19 @@ export async function onRequestPost({ request, env }) {
     delivered = true;
   }
   if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
-    const r = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
-    });
-    delivered = delivered || r.ok;
-    if (!r.ok && !env.CERERI) return json({ ok: false, error: 'telegram' }, 502);
+    let tgOk = false;
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+      });
+      tgOk = r.ok;
+      if (!r.ok) console.error('Telegram', r.status, await r.text());
+    } catch (e) { console.error('Telegram', e); }
+    delivered = delivered || tgOk;
+    if (!tgOk && !env.CERERI) return json({ ok: false, error: 'telegram' }, 502);
   }
   if (!delivered) return json({ ok: false, error: 'neconfigurat' }, 503);
   return json({ ok: true });
 }
 
-export const onRequest = () => json({ ok: false, error: 'method' }, 405);
