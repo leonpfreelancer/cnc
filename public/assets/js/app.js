@@ -20,13 +20,18 @@ async function initViewer(box) {
   const state = { explode: 0 };
 
   async function load(slug) {
-    if (loading) loading.hidden = false;
-    const mod = await MODELS[slug]();
-    const model = await mod.build();
-    v.setModel(model);
-    if (loading) loading.hidden = true;
-    if (ctlBox) renderControls(ctlBox, model, v, state);
-    return model;
+    if (loading) { loading.hidden = false; loading.textContent = 'Se încarcă modelul 3D…'; }
+    try {
+      const mod = await MODELS[slug]();
+      const model = await mod.build();
+      v.setModel(model);
+      if (loading) loading.hidden = true;
+      if (ctlBox) renderControls(ctlBox, model, v, state);
+      return model;
+    } catch (e) {
+      console.error(e);
+      if (loading) loading.textContent = 'Modelul 3D nu s-a putut încărca. Reîncarcă pagina.';
+    }
   }
   // file (taburi) pe pagina principală
   const tabs = box.dataset.tabs ? document.querySelector(box.dataset.tabs) : null;

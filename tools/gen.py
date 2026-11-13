@@ -12,6 +12,26 @@ BRAND = {
 }
 E = html.escape
 
+def asset_version():
+    """Hash din conținutul JS/CSS/JSON. Se pune în adrese (?v=…), ca browserul să ia fișierele noi după fiecare actualizare."""
+    import hashlib, glob
+    h = hashlib.sha1()
+    files = glob.glob(os.path.join(ROOT, 'assets', 'js', '**', '*'), recursive=True) + glob.glob(os.path.join(ROOT, 'assets', 'css', '*'))
+    for f in sorted(files):
+        if os.path.isfile(f): h.update(f.encode()); h.update(open(f, 'rb').read())
+    return h.hexdigest()[:10]
+
+def import_map(v):
+    """three din vendor + toate modulele proprii mapate pe adrese versionate (și importurile relative trec prin hartă)."""
+    import glob
+    m = {"three": "/assets/js/vendor/three.module.min.js",
+         "three/addons/controls/OrbitControls.js": "/assets/js/vendor/OrbitControls.js",
+         "three/addons/environments/RoomEnvironment.js": "/assets/js/vendor/RoomEnvironment.js"}
+    for f in sorted(glob.glob(os.path.join(ROOT, 'assets', 'js', '*.js')) + glob.glob(os.path.join(ROOT, 'assets', 'js', 'models', '*.js'))):
+        u = '/' + os.path.relpath(f, ROOT).replace(os.sep, '/')
+        m[u] = f'{u}?v={v}'
+    return json.dumps({"imports": m}, separators=(',', ':'))
+
 PRODUCTS = [
     {
         'slug': 'brad-craciun', 'form': 'Brad de Crăciun cu nume', 'name': 'Brad de Crăciun din lemn, cu numele familiei',
@@ -135,6 +155,7 @@ def logo():
             '<path d="M11.5 18h9" stroke="#1a0a02" stroke-width="3"/></svg>')
 
 def head(title, desc, path, image, extra_ld=None):
+    V = asset_version()
     ld = {"@context": "https://schema.org", "@type": "LocalBusiness", "name": f"{BRAND['name']} · {BRAND['city']}",
           "legalName": BRAND['legal'], "telephone": BRAND['phone_raw'],
           "address": {"@type": "PostalAddress", "addressLocality": "Chișinău", "addressCountry": "MD"},
@@ -159,9 +180,9 @@ def head(title, desc, path, image, extra_ld=None):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/site.css">
-<script type="importmap">{{"imports":{{"three":"/assets/js/vendor/three.module.min.js","three/addons/controls/OrbitControls.js":"/assets/js/vendor/OrbitControls.js","three/addons/environments/RoomEnvironment.js":"/assets/js/vendor/RoomEnvironment.js"}}}}</script>
-<script type="module" src="/assets/js/app.js"></script>
+<link rel="stylesheet" href="/assets/css/site.css?v={V}">
+<script type="importmap">{import_map(V)}</script>
+<script type="module" src="/assets/js/app.js?v={V}"></script>
 {''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in lds)}
 </head>
 <body>

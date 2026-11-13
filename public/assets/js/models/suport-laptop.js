@@ -3,7 +3,7 @@
 import { THREE, woodMaterials } from '../viewer.js';
 
 export async function build() {
-  const D = await (await fetch(new URL('./woodstand-data.json', import.meta.url))).json();
+  const D = await (await fetch(new URL('./woodstand-data.json' + new URL(import.meta.url).search, import.meta.url))).json();
   const mats = woodMaterials();
   const objs = [];
   const shapeFrom = p => { const s = new THREE.Shape(); s.moveTo(p[0][0], p[0][1]); for (let i = 1; i < p.length; i++) s.lineTo(p[i][0], p[i][1]); s.closePath(); return s; };
