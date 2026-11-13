@@ -2,7 +2,7 @@
 // Notificare: Telegram (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID) și/sau păstrare în KV (binding CERERI).
 // Fără niciuna configurată, răspunde 503 și site-ul îi arată omului numărul de telefon.
 
-const PRODUSE = ['Mangal', 'Raft pentru vin', 'Suport laptop WOODSTAND 01', 'Frezare CNC lemn', 'Altă comandă'];
+const PRODUSE = ['Brad de Crăciun cu nume', 'Mangal', 'Raft pentru vin', 'Suport laptop WOODSTAND 01', 'Frezare CNC lemn', 'Altă comandă'];
 const LIM = { nume: 80, telefon: 30, contact: 20, finisaj: 60, gravura: 40, detalii: 1500, pagina: 120 };
 
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), {

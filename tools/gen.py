@@ -14,6 +14,35 @@ E = html.escape
 
 PRODUCTS = [
     {
+        'slug': 'brad-craciun', 'form': 'Brad de Crăciun cu nume', 'name': 'Brad de Crăciun din lemn, cu numele familiei',
+        'short': 'Brad de Crăciun', 'eyebrow': 'Placaj de mesteacăn · CNC · gravură', 'engrave': True,
+        'title': 'Brad de Crăciun din lemn cu numele familiei, tăiat pe CNC — Chișinău',
+        'desc': 'Brad de Crăciun din placaj de mesteacăn, 58 cm: 2 piese în cruce și o stea, 0 șuruburi, cu numele familiei gravat. Tăiat pe CNC în Chișinău. Vezi-l în 3D și cere prețul.',
+        'lead': 'Două piese din placaj de mesteacăn de 12 mm care intră una în alta, în cruce, și o stea în vârf. Gravăm pe ramuri numele familiei tale. Se montează în 10 secunde, fără șuruburi, iar după sărbători îl desfaci și îl păstrezi plat până la anul. Scrie numele mai jos și vezi-l în 3D.',
+        'tags': ['Placaj mesteacăn', 'Nume gravat', '58 cm'],
+        'facts': [('58 cm', 'înălțime cu steaua'), ('3', 'piese, 0 șuruburi'), ('10 s', 'montaj fără scule'), ('Gravură', 'numele familiei')],
+        'features': [
+            'Două piese în cruce și o stea, din placaj de mesteacăn de 12 mm',
+            'Numele familiei și anul, gravate pe ramurile din față',
+            'Se montează în 10 secunde, fără scule, fără șuruburi, fără lipici',
+            '27 de găuri pentru globulețe mici, panglici sau ghirlandă',
+            'Se desface plat și ocupă puțin loc până la anul',
+            'Finisaj cu ulei-ceară, fără vopsea',
+        ],
+        'steps': [('Frezare CNC', 'Toate piesele se taie dintr-o singură placă de placaj de 900 × 600 mm.'),
+                  ('Gravură', 'Numele familiei se gravează pe ramurile din față.'),
+                  ('Șlefuire și ulei-ceară', 'Muchii netede, fibra mesteacănului pusă în valoare.'),
+                  ('Montaj în 10 secunde', 'Piesa cu vârf intră de sus peste cealaltă, apoi pui steaua.')],
+        'spec': [('Înălțime', '≈ 58 cm cu steaua'), ('Lățime', '≈ 41 cm; în cruce ocupă 41 × 41 cm'), ('Material', 'Placaj de mesteacăn 12 mm'),
+                 ('Piese', '2 piese în cruce + stea'), ('Gravură', 'Numele familiei și anul'), ('Finisaj', 'Ulei-ceară'),
+                 ('Masă', '≈ 2 kg'), ('Producție', 'Atelier propriu, Chișinău')],
+        'faq': [('Ce putem grava?', 'Numele familiei, un nume sau un mesaj scurt, plus anul. Scrie-l în previzualizarea 3D de sus ca să vezi cum arată, apoi trimite-ni-l odată cu cererea.'),
+                ('Cum se montează?', 'Ții în picioare piesa cu vârful tăiat drept, cobori peste ea, în cruce, piesa cu vârf și pui steaua sus. Fără scule, în 10 secunde. Se desface la fel de ușor.'),
+                ('Pot comanda mai mulți, cadou pentru rude sau colegi?', 'Da. Pentru mai mulți brazi, prețul pe bucată scade. Spune-ne câte bucăți vrei și ce nume gravăm pe fiecare.')],
+        'video_alt': 'Video: bradul de Crăciun, de la frezarea CNC la montaj și luminițe',
+        'badge': 'Nou · Crăciun',
+    },
+    {
         'slug': 'mangal', 'form': 'Mangal', 'name': 'Mangal tăiat cu laser',
         'short': 'Mangal', 'eyebrow': 'Oțel · tăiere laser · la comandă',
         'title': 'Mangal tăiat cu laser, la comandă în Chișinău',
@@ -47,7 +76,7 @@ PRODUCTS = [
         'title': 'Raft pentru vin cu nume gravat, tăiat cu laser — Chișinău',
         'desc': 'Raft din oțel pentru 6 sticle, 4 piese tăiate cu laser, vopsire în câmp electrostatic și nume gravat pe capac. Cadou gata de oferit. Vezi-l în 3D și cere prețul.',
         'lead': 'Raft din oțel pentru 6 sticle, din patru piese tăiate cu laser și vopsite în câmp electrostatic. Gravăm pe capac numele celui care îl primește. Scrie-l mai jos și vezi-l în 3D.',
-        'tags': ['6 sticle', 'Nume gravat', 'Cadou'],
+        'tags': ['6 sticle', 'Nume gravat', 'Cadou'], 'engrave': True,
         'facts': [('6', 'sticle'), ('4', 'piese din oțel'), ('Gravură', 'nume pe capac'), ('Vopsire', 'electrostatică')],
         'features': [
             'Ține 6 sticle culcate, cum se păstrează corect vinul',
@@ -109,7 +138,7 @@ def head(title, desc, path, image, extra_ld=None):
     ld = {"@context": "https://schema.org", "@type": "LocalBusiness", "name": f"{BRAND['name']} · {BRAND['city']}",
           "legalName": BRAND['legal'], "telephone": BRAND['phone_raw'],
           "address": {"@type": "PostalAddress", "addressLocality": "Chișinău", "addressCountry": "MD"},
-          "description": "Tăiere laser și frezare CNC în Chișinău: mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm, la comandă."}
+          "description": "Tăiere laser și frezare CNC în Chișinău: brazi de Crăciun din lemn cu nume gravat, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm, la comandă."}
     lds = [ld] + ([extra_ld] if extra_ld else [])
     return f'''<!DOCTYPE html>
 <html lang="ro">
@@ -148,7 +177,7 @@ def header(active=None):
 '''
 
 def quote_section(selected):
-    opts = ''.join(f'<option{" selected" if p["form"] == selected else ""}>{p["form"]}</option>' for p in PRODUCTS)
+    opts = ''.join(f'<option{" selected" if p["form"] == selected else ""}{" data-engrave" if p.get("engrave") else ""}>{p["form"]}</option>' for p in PRODUCTS)
     for extra in ('Frezare CNC lemn', 'Altă comandă'):
         opts += f'<option{" selected" if selected == extra else ""}>{extra}</option>'
     return f'''<section id="cere-pret" class="band"><div class="wrap quote">
@@ -174,7 +203,7 @@ def quote_section(selected):
       <div class="field"><label for="f-contact">Cum să te contactăm</label><select id="f-contact" name="contact"><option>Apel</option><option>Viber</option><option>WhatsApp</option><option>Telegram</option></select></div>
       <div class="field"><label for="f-fin">Finisaj / culoare</label><input id="f-fin" name="finisaj" maxlength="60" placeholder="ex. negru mat"></div>
     </div>
-    <div class="field" data-only="raft-vin" hidden><label for="f-gr">Text gravat pe capac</label><input id="f-gr" name="gravura" maxlength="40" placeholder="ex. ANDREI"></div>
+    <div class="field" data-engrave-field hidden><label for="f-gr">Text de gravat (nume)</label><input id="f-gr" name="gravura" maxlength="40" placeholder="ex. FAMILIA ROTARU"></div>
     <div class="field"><label for="f-det">Detalii (dimensiuni, idee, termen)</label><textarea id="f-det" name="detalii" maxlength="1500" placeholder="Spune-ne ce ai nevoie. Poți descrie dimensiunile sau ideea."></textarea></div>
     <div class="hp" aria-hidden="true"><label for="f-web">Nu completa</label><input id="f-web" name="website" tabindex="-1" autocomplete="off"></div>
     <button class="btn btn-primary" type="submit">Trimite cererea de preț</button>
@@ -213,8 +242,8 @@ def home():
   <div class="row"><a class="btn btn-ghost btn-sm" href="/{p['slug']}/">Vezi în 3D</a><a class="btn btn-primary btn-sm" href="#cere-pret" data-quote="{p['form']}">Cere prețul</a></div></div>
 </article>'''
     tabs = ''.join(f'<button type="button" role="tab" aria-selected="{"true" if i == 0 else "false"}" data-model="{p["slug"]}" data-href="/{p["slug"]}/">{p["short"]}</button>' for i, p in enumerate(PRODUCTS))
-    s = head(f"{BRAND['name']} {BRAND['city']} — mangaluri, rafturi pentru vin, suporturi de laptop la comandă",
-             'Atelier de tăiere laser și frezare CNC în Chișinău: mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm. Cere prețul.',
+    s = head(f"{BRAND['name']} {BRAND['city']} — brazi de Crăciun cu nume, mangaluri, rafturi pentru vin, la comandă",
+             'Atelier de tăiere laser și frezare CNC în Chișinău: brazi de Crăciun din lemn cu numele familiei, mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm. Cere prețul.',
              '/', '/assets/img/og-home.jpg')
     s += header()
     s += f'''<main>
@@ -222,7 +251,7 @@ def home():
   <div>
     <span class="eyebrow">Atelier laser · CNC · {BRAND['city']}</span>
     <h1 style="margin-top:14px">Obiecte din metal și lemn, <span class="accent">tăiate la milimetru</span></h1>
-    <p class="lead">Mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj și piese din lemn pe CNC, după desenul tău. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
+    <p class="lead">Brazi de Crăciun din lemn cu numele familiei, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj și piese din lemn pe CNC, după desenul tău. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
     <div class="row"><a class="btn btn-primary" href="#cere-pret">Cere prețul</a><a class="btn btn-ghost" href="#produse">Vezi produsele</a></div>
   </div>
   <div>
@@ -233,7 +262,7 @@ def home():
 </div></section>
 
 <section id="produse"><div class="wrap">
-  <div class="sec-head"><span class="eyebrow">Produse</span><h2>Trei produse, făcute la comandă</h2>
+  <div class="sec-head"><span class="eyebrow">Produse</span><h2>Patru produse, făcute la comandă</h2>
   <p class="lead">Fiecare are pagina lui cu model 3D interactiv, video din atelier și formular de preț.</p></div>
   <div class="cards">{cards}</div>
 </div></section>
@@ -310,7 +339,7 @@ def product(p):
   <ol class="steps">{steps}</ol>
 </div></section>
 
-<section class="band"><div class="wrap split" style="grid-template-columns:1fr 1fr;align-items:start">
+<section class="band"><div class="wrap split split-eq">
   <div><div class="sec-head"><span class="eyebrow">Specificații</span><h2>Pe scurt</h2></div><table class="spec">{spec}</table></div>
   <div><div class="sec-head"><span class="eyebrow">Întrebări</span><h2>Ce ne întreabă clienții</h2></div>{faq}</div>
 </div></section>

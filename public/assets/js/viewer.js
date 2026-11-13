@@ -122,7 +122,7 @@ export function createViewer(container, opt = {}) {
   ground.receiveShadow = true; scene.add(ground);
 
   const root = new THREE.Group(); scene.add(root);
-  let parts = [], explode = 0, size = 500, center = new THREE.Vector3(), anims = [], current = null;
+  let parts = [], explode = 0, size = 500, center = new THREE.Vector3(), anims = [], current = null, camT = 0;
 
   function setModel(model) {
     root.clear(); parts = []; current = model;
@@ -134,7 +134,7 @@ export function createViewer(container, opt = {}) {
     key.position.set(center.x - size * 0.9, center.y - size * 1.2, center.z + size * 2.2); key.target.position.copy(center);
     const sc = key.shadow.camera; sc.left = sc.bottom = -size * 1.4; sc.right = sc.top = size * 1.4; sc.near = 10; sc.far = size * 6; sc.updateProjectionMatrix();
     rim.position.set(center.x + size, center.y + size * 1.5, center.z + size * 0.6);
-    controls.target.copy(center);
+    controls.target.copy(center); camT = 0;
     const v = model.view || { az: -55, el: 22, dist: 2.6 };
     setView(v.az, v.el, v.dist);
     controls.minDistance = size * 1.1; controls.maxDistance = size * 5;
@@ -154,6 +154,13 @@ export function createViewer(container, opt = {}) {
       m.matrixWorldNeedsUpdate = true;
     });
     if (current && current.onExplode) current.onExplode(t);
+    // modelele care cresc mult în înălțime la desfacere (ex. bradul) cer camerei să urce și să se depărteze
+    const v = current && current.view;
+    if (v && (v.liftZ || v.zoomOut)) {
+      const off = cam.position.clone().sub(controls.target).multiplyScalar((1 + (v.zoomOut || 0) * t) / (1 + (v.zoomOut || 0) * camT));
+      controls.target.z += (v.liftZ || 0) * (t - camT); cam.position.copy(controls.target).add(off); camT = t;
+      controls.maxDistance = size * 5 * (1 + (v.zoomOut || 0));
+    }
   }
   function resize() {
     const w = container.clientWidth, h = container.clientHeight; if (!w || !h) return;

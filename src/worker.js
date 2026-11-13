@@ -5,7 +5,7 @@
 // - restul           fișierele din public/, iar în HTML canonical / og:url / og:image devin adrese absolute
 import { handleCerere } from './cerere.js';
 
-const PAGES = ['/', '/mangal/', '/raft-vin/', '/suport-laptop/'];
+const PAGES = ['/', '/brad-craciun/', '/mangal/', '/raft-vin/', '/suport-laptop/'];
 
 class Abs {
   constructor(origin, attr) { this.origin = origin; this.attr = attr; }

@@ -1,11 +1,12 @@
 # Atelier Laser · Chișinău — site de prezentare
 
-Site static cu modele 3D interactive pentru trei produse și formular „Cere prețul”.
+Site static cu modele 3D interactive pentru patru produse și formular „Cere prețul”.
 Rulează ca **Cloudflare Worker cu fișiere statice**: paginile din `public/` sunt servite direct, iar `src/worker.js` se ocupă de formular (`/api/cerere`), `sitemap.xml`, `robots.txt` și adresele absolute din HTML.
 
 | Pagina | Ce are |
 | --- | --- |
 | `/` | erou cu 3D (comutare între produse), carduri, „Cum lucrăm”, servicii (frezare CNC lemn 900 × 600 mm, tăiere laser metal), formular |
+| `/brad-craciun/` | brad de Crăciun din placaj: geometria reală din fișierele CNC, **numele familiei se vede live gravat**, ghirlandă LED, desfacerea arată ordinea corectă de montaj |
 | `/mangal/` | mangal tăiat cu laser: 3D cu jar și frigărui, desfacere în piese, culori |
 | `/raft-vin/` | raft pentru vin: 3D cu sticle, **numele gravat se vede live pe capac**, culori |
 | `/suport-laptop/` | WOODSTAND 01: geometria reală din scriptul Fusion 360, cu laptop de referință |
@@ -42,7 +43,7 @@ Cererile se păstrează un an, iar de la același IP se acceptă cel mult 5 cere
 ## Modificări
 
 - **Texte, telefon, nume firmă**: în `tools/gen.py` (`BRAND`, `PRODUCTS`), apoi `python3 tools/gen.py` regenerează paginile din `public/`.
-- **Modele 3D**: `public/assets/js/models/*.js`. Raftul pentru vin și mangalul sunt reconstruite după video-uri. Dimensiunile sunt constante la începutul fiecărui fișier și se pot potrivi cu desenele reale. WOODSTAND 01 folosește contururile reale (`woodstand-data.json`).
+- **Modele 3D**: `public/assets/js/models/*.js`. Raftul pentru vin și mangalul sunt reconstruite după video-uri. Dimensiunile sunt constante la începutul fiecărui fișier și se pot potrivi cu desenele reale. WOODSTAND 01 și bradul folosesc contururile reale de frezare (`woodstand-data.json`, `brad-data.json`).
 - **Video-uri**: `public/assets/media/` (720p, comprimate pentru web).
 - **Imagini pentru link-uri** (Facebook, Viber, Telegram): `public/assets/img/og-*.jpg`.
 

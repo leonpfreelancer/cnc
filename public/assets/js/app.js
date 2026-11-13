@@ -1,6 +1,7 @@
 // Logica paginilor: vizualizatoare 3D, controale, formularul „Cere prețul”.
 const PHONE = '+373 61 198 777';
 const MODELS = {
+  'brad-craciun': () => import('./models/brad.js'),
   'mangal': () => import('./models/mangal.js'),
   'raft-vin': () => import('./models/raft-vin.js'),
   'suport-laptop': () => import('./models/suport-laptop.js'),
@@ -85,8 +86,9 @@ function syncForm(name, value) {
 function initForm(form) {
   const st = form.querySelector('.status');
   const prod = form.querySelector('[name="produs"]');
-  const engr = form.querySelector('[data-only="raft-vin"]');
-  const upd = () => { if (engr) engr.hidden = prod.value !== 'Raft pentru vin'; };
+  const engr = form.querySelector('[data-engrave-field]');
+  // câmpul de gravură apare doar pentru produsele care se gravează (opțiunile cu data-engrave)
+  const upd = () => { if (engr && prod) engr.hidden = !prod.selectedOptions[0]?.hasAttribute('data-engrave'); };
   prod?.addEventListener('change', upd); upd();
   // butoanele „Cere prețul” din carduri preselectează produsul
   document.querySelectorAll('[data-quote]').forEach(a => a.addEventListener('click', () => { if (prod) { prod.value = a.dataset.quote; upd(); } }));
