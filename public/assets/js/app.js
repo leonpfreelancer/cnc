@@ -2,6 +2,7 @@
 const PHONE = '+373 61 198 777';
 const MODELS = {
   'brad-craciun': () => import('./models/brad.js'),
+  'casuta': () => import('./models/casuta.js'),
   'mangal': () => import('./models/mangal.js'),
   'raft-vin': () => import('./models/raft-vin.js'),
   'suport-laptop': () => import('./models/suport-laptop.js'),

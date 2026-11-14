@@ -63,6 +63,35 @@ PRODUCTS = [
         'badge': 'Nou · Crăciun',
     },
     {
+        'slug': 'casuta', 'form': 'Căsuță de iarnă cu lumină', 'name': 'Căsuță de iarnă cu lumină și numele familiei',
+        'short': 'Căsuță de iarnă', 'eyebrow': 'Placaj de mesteacăn · CNC · gravură', 'engrave': True,
+        'title': 'Căsuță de iarnă din lemn cu lumină și numele familiei, tăiată pe CNC — Chișinău',
+        'desc': 'Căsuță-felinar din placaj de mesteacăn: 7 piese, 0 șuruburi, lumânare LED înăuntru și numele familiei gravat pe acoperiș. Tăiată pe CNC în Chișinău. Vezi-o în 3D și cere prețul.',
+        'lead': 'Șapte piese din placaj de mesteacăn care intră una în alta, cu ușă, ferestre cu ochiuri, o stea și o inimă decupate pe CNC. Înăuntru pui o lumânare LED, stingi lumina și ferestrele se aprind cald. Pe acoperiș gravăm numele familiei tale. Scrie-l mai jos și vezi-o în 3D.',
+        'tags': ['Placaj mesteacăn', 'Nume gravat', 'Lumânare LED'],
+        'facts': [('7', 'piese, 0 șuruburi'), ('22 cm', 'lungime, 21 cm înălțime'), ('LED', 'lumânare inclusă'), ('Gravură', 'numele pe acoperiș')],
+        'features': [
+            'Șapte piese din placaj de mesteacăn de 6 mm, tăiate pe CNC',
+            'Numele familiei gravat pe acoperișul din față',
+            'Ușă cu arc, ferestre cu ochiuri, stea și inimă decupate',
+            'Lumânare LED inclusă: fără foc deschis, sigură pentru copii',
+            'Gaură în bază: schimbi bateria fără să desfaci căsuța',
+            'Finisaj cu ulei-ceară, fără vopsea',
+        ],
+        'steps': [('Frezare CNC', 'Toate piesele, cu ferestrele și ușa, se taie dintr-o bucată de placaj.'),
+                  ('Gravură', 'Numele familiei se gravează cu laserul pe acoperiș.'),
+                  ('Șlefuire și ulei-ceară', 'Muchii netede, fibra mesteacănului pusă în valoare.'),
+                  ('Montaj și lumină', 'Piesele intră una în alta, pui lumânarea LED înăuntru.')],
+        'spec': [('Dimensiuni', '≈ 22 × 15 × 21 cm (lungime × adâncime × înălțime)'), ('Material', 'Placaj de mesteacăn 6 mm'),
+                 ('Piese', '7: bază, 2 pereți, 2 frontoane, 2 panouri de acoperiș'), ('Gravură', 'Numele familiei pe acoperiș'),
+                 ('Lumină', 'Lumânare LED cu baterie, inclusă'), ('Finisaj', 'Ulei-ceară'), ('Producție', 'Atelier propriu, Chișinău')],
+        'faq': [('Ce putem grava?', 'Numele familiei, un nume sau un mesaj scurt. Scrie-l în previzualizarea 3D de sus ca să vezi cum arată, apoi trimite-ni-l odată cu cererea.'),
+                ('Pot pune o lumânare adevărată?', 'Nu, căsuța e din lemn, de aceea vine cu lumânare LED. Lumina e caldă și pâlpâie ca o flacără, fără niciun risc.'),
+                ('Pot comanda mai multe, cadou pentru rude sau colegi?', 'Da. Pentru mai multe căsuțe, prețul pe bucată scade. Spune-ne câte bucăți vrei și ce nume gravăm pe fiecare.')],
+        'video_alt': 'Video: căsuța de iarnă, de la frezarea CNC la lumina aprinsă',
+        'badge': 'Nou · cadou de iarnă', 'gandit': 'gândită',
+    },
+    {
         'slug': 'mangal', 'form': 'Mangal', 'name': 'Mangal tăiat cu laser',
         'short': 'Mangal', 'eyebrow': 'Oțel · tăiere laser · la comandă',
         'title': 'Mangal tăiat cu laser, la comandă în Chișinău',
@@ -159,7 +188,7 @@ def head(title, desc, path, image, extra_ld=None):
     ld = {"@context": "https://schema.org", "@type": "LocalBusiness", "name": f"{BRAND['name']} · {BRAND['city']}",
           "legalName": BRAND['legal'], "telephone": BRAND['phone_raw'],
           "address": {"@type": "PostalAddress", "addressLocality": "Chișinău", "addressCountry": "MD"},
-          "description": "Tăiere laser și frezare CNC în Chișinău: brazi de Crăciun din lemn cu nume gravat, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm, la comandă."}
+          "description": "Tăiere laser și frezare CNC în Chișinău: brazi de Crăciun și căsuțe de iarnă din lemn cu nume gravat, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm, la comandă."}
     lds = [ld] + ([extra_ld] if extra_ld else [])
     return f'''<!DOCTYPE html>
 <html lang="ro">
@@ -263,8 +292,8 @@ def home():
   <div class="row"><a class="btn btn-ghost btn-sm" href="/{p['slug']}/">Vezi în 3D</a><a class="btn btn-primary btn-sm" href="#cere-pret" data-quote="{p['form']}">Cere prețul</a></div></div>
 </article>'''
     tabs = ''.join(f'<button type="button" role="tab" aria-selected="{"true" if i == 0 else "false"}" data-model="{p["slug"]}" data-href="/{p["slug"]}/">{p["short"]}</button>' for i, p in enumerate(PRODUCTS))
-    s = head(f"{BRAND['name']} {BRAND['city']} — brazi de Crăciun cu nume, mangaluri, rafturi pentru vin, la comandă",
-             'Atelier de tăiere laser și frezare CNC în Chișinău: brazi de Crăciun din lemn cu numele familiei, mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm. Cere prețul.',
+    s = head(f"{BRAND['name']} {BRAND['city']} — brazi de Crăciun și căsuțe cu lumină, cu nume, mangaluri, rafturi pentru vin, la comandă",
+             'Atelier de tăiere laser și frezare CNC în Chișinău: brazi de Crăciun din lemn cu numele familiei, căsuțe de iarnă cu lumină, mangaluri din oțel, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj, piese din lemn pe CNC până la 900 × 600 mm. Cere prețul.',
              '/', '/assets/img/og-home.jpg')
     s += header()
     s += f'''<main>
@@ -272,7 +301,7 @@ def home():
   <div>
     <span class="eyebrow">Atelier laser · CNC · {BRAND['city']}</span>
     <h1 style="margin-top:14px">Obiecte din metal și lemn, <span class="accent">tăiate la milimetru</span></h1>
-    <p class="lead">Brazi de Crăciun din lemn cu numele familiei, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj și piese din lemn pe CNC, după desenul tău. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
+    <p class="lead">Brazi de Crăciun și căsuțe de iarnă din lemn cu numele familiei, mangaluri, rafturi pentru vin cu nume gravat, suporturi de laptop din placaj și piese din lemn pe CNC, după desenul tău. Le facem la comandă în atelierul nostru din Chișinău. Rotește-le în 3D, apoi cere prețul.</p>
     <div class="row"><a class="btn btn-primary" href="#cere-pret">Cere prețul</a><a class="btn btn-ghost" href="#produse">Vezi produsele</a></div>
   </div>
   <div>
@@ -283,7 +312,7 @@ def home():
 </div></section>
 
 <section id="produse"><div class="wrap">
-  <div class="sec-head"><span class="eyebrow">Produse</span><h2>Patru produse, făcute la comandă</h2>
+  <div class="sec-head"><span class="eyebrow">Produse</span><h2>Cinci produse, făcute la comandă</h2>
   <p class="lead">Fiecare are pagina lui cu model 3D interactiv, video din atelier și formular de preț.</p></div>
   <div class="cards">{cards}</div>
 </div></section>
@@ -351,7 +380,7 @@ def product(p):
 
 <section class="band"><div class="wrap split">
   <video src="/assets/media/{p['slug']}.mp4" poster="/assets/media/{p['slug']}-poster.jpg" controls playsinline preload="none" aria-label="{E(p['video_alt'])}"></video>
-  <div><div class="sec-head"><span class="eyebrow">Ce primești</span><h2>{p['short']}, gândit până la detaliu</h2></div>
+  <div><div class="sec-head"><span class="eyebrow">Ce primești</span><h2>{p['short']}, {p.get('gandit', 'gândit')} până la detaliu</h2></div>
   <ul class="list">{feats}</ul></div>
 </div></section>
 

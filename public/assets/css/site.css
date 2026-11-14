@@ -34,10 +34,11 @@ p{margin:0}
 .logo svg{flex:none}
 .logo small{font:500 12px var(--body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .nav{display:flex;gap:4px;margin-left:auto}
-.nav a{text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;padding:8px 12px;border-radius:8px}
+.nav a{text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;padding:8px 12px;border-radius:8px;white-space:nowrap}
+@media (max-width:1320px){.nav a{font-size:14px;padding:8px 8px}}
 .nav a:hover,.nav a[aria-current="page"]{color:var(--ink);background:var(--surface-2)}
 .top .call{margin-left:8px}
-@media (max-width:860px){.nav{display:none}.top .call{margin-left:auto}}
+@media (max-width:1180px){.nav{display:none}.top .call{margin-left:auto}}
 
 /* butoane */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:12px;border:1px solid transparent;

@@ -1,12 +1,13 @@
 # Atelier Laser · Chișinău — site de prezentare
 
-Site static cu modele 3D interactive pentru patru produse și formular „Cere prețul”.
+Site static cu modele 3D interactive pentru cinci produse și formular „Cere prețul”.
 Rulează ca **Cloudflare Worker cu fișiere statice**: paginile din `public/` sunt servite direct, iar `src/worker.js` se ocupă de formular (`/api/cerere`), `sitemap.xml`, `robots.txt` și adresele absolute din HTML.
 
 | Pagina | Ce are |
 | --- | --- |
 | `/` | erou cu 3D (comutare între produse), carduri, „Cum lucrăm”, servicii (frezare CNC lemn 900 × 600 mm, tăiere laser metal), formular |
 | `/brad-craciun/` | brad de Crăciun din placaj: geometria reală din fișierele CNC, **numele familiei se vede live gravat**, ghirlandă LED, desfacerea arată ordinea corectă de montaj |
+| `/casuta/` | căsuță de iarnă din placaj: **numele familiei se vede live gravat** pe acoperiș, lumânare LED care aprinde ferestrele, desfacere în cele 7 piese |
 | `/mangal/` | mangal tăiat cu laser: 3D cu jar și frigărui, desfacere în piese, culori |
 | `/raft-vin/` | raft pentru vin: 3D cu sticle, **numele gravat se vede live pe capac**, culori |
 | `/suport-laptop/` | WOODSTAND 01: geometria reală din scriptul Fusion 360, cu laptop de referință |
