@@ -8,7 +8,7 @@ const ZONE = { x: 87.5, z: 127.5, w: 105, h: 75 };   // zona sigură a gravurii 
 function engravingTexture(name, year) {
   const c = document.createElement('canvas'); c.width = 1050; c.height = 750; const g = c.getContext('2d');
   g.fillStyle = '#4a2a10'; g.textAlign = 'center'; g.textBaseline = 'middle';
-  const fit = (t, size, maxW) => { do { g.font = `800 ${size}px Archivo, Arial, sans-serif`; size -= 4; } while (g.measureText(t).width > maxW && size > 30); };
+  const fit = (t, size, maxW) => { do { g.font = `800 ${size}px "Bricolage Grotesque", Arial, sans-serif`; size -= 4; } while (g.measureText(t).width > maxW && size > 30); };
   const n = (name || '').toUpperCase().trim().slice(0, 14);
   if ('letterSpacing' in g) g.letterSpacing = '6px';
   fit('FAMILIA', 120, 900); g.fillText('FAMILIA', 525, 140);
@@ -84,7 +84,7 @@ export async function build() {
 
   return {
     objects: objs,
-    view: { az: -68, el: 14, dist: 2.5, liftZ: 310, zoomOut: 0.72 },
+    view: { az: -68, el: 14, dist: 2.8, liftZ: 310, zoomOut: 0.72 },
     onExplode: t => { exploded = t > 0.02; lights.visible = lightsOn && !exploded; },
     animate: t => { if (lights.visible) bulbs.forEach(o => { o.s.material.opacity = 0.75 + 0.25 * Math.sin(t * 3.1 + o.ph); }); },
     controls: [

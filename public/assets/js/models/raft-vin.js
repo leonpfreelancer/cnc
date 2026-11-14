@@ -48,7 +48,7 @@ function engravingTexture(text, color) {
   const c = document.createElement('canvas'); c.width = 1024; c.height = 320; const g = c.getContext('2d');
   g.clearRect(0, 0, c.width, c.height); g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle';
   let size = 170; const t = (text || '').toUpperCase().slice(0, 18);
-  do { g.font = `800 ${size}px Archivo, Arial, sans-serif`; size -= 6; } while (g.measureText(t).width > 940 && size > 40);
+  do { g.font = `800 ${size}px "Bricolage Grotesque", Arial, sans-serif`; size -= 6; } while (g.measureText(t).width > 940 && size > 40);
   if ('letterSpacing' in g) g.letterSpacing = '12px';
   g.fillText(t, 512, 168);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8; return tex;
@@ -79,7 +79,7 @@ export async function build() {
 
   return {
     objects: objs,
-    view: { az: -58, el: 18, dist: 2.7 },
+    view: { az: -58, el: 18, dist: 3.35 },
     onExplode: t => { bottles.visible = t < 0.02 && showBottles; },
     controls: [
       { type: 'finish', label: 'Finisaj', value: finish, options: ['negru', 'antracit', 'bronz', 'brut'],

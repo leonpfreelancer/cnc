@@ -85,7 +85,7 @@ export async function build() {
 
   return {
     objects: o,
-    view: { az: -62, el: 16, dist: 2.35 },
+    view: { az: -62, el: 16, dist: 2.9 },
     animate: t => { if (!fire.visible) return; const f = 1.45 + 0.25 * Math.sin(t * 7.3) + 0.15 * Math.sin(t * 13.1 + 1); coals.material.emissiveIntensity = f; glow.intensity = 1.6 * f; },
     onExplode: t => { fire.visible = fireOn && t < 0.02; },
     controls: [

@@ -103,7 +103,7 @@ export function createViewer(container, opt = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: !!opt.preserve });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = opt.exposure ?? 1.0;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = opt.exposure ?? 0.92;
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
@@ -118,20 +118,20 @@ export function createViewer(container, opt = {}) {
   const key = new THREE.DirectionalLight(0xfff1dc, 1.6); key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -0.0003; key.shadow.radius = 4; scene.add(key); scene.add(key.target);
   const rim = new THREE.DirectionalLight(0xffb27a, 0.5); scene.add(rim);
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.ShadowMaterial({ opacity: 0.38 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.ShadowMaterial({ opacity: 0.3 }));
   ground.receiveShadow = true; scene.add(ground);
 
   const root = new THREE.Group(); scene.add(root);
-  let parts = [], explode = 0, size = 500, center = new THREE.Vector3(), anims = [], current = null, camT = 0;
+  let parts = [], explode = 0, size = 500, center = new THREE.Vector3(), anims = [], current = null, camT = 0, groundZ = 0;
 
   function setModel(model) {
     root.clear(); parts = []; current = model;
     model.objects.forEach(o => { root.add(o); if (o.userData.base) parts.push(o); });
     const box = new THREE.Box3();
     model.objects.forEach(o => { o.updateMatrixWorld(true); if (!o.userData.noFit) box.expandByObject(o); });
-    box.getCenter(center); const s = box.getSize(new THREE.Vector3()); size = Math.max(s.x, s.y, s.z);
+    box.getCenter(center); const s = box.getSize(new THREE.Vector3()); size = Math.max(s.x, s.y, s.z); groundZ = box.min.z;
     ground.scale.set(size * 8, size * 8, 1); ground.position.set(center.x, center.y, box.min.z - 0.5);
-    key.position.set(center.x - size * 0.9, center.y - size * 1.2, center.z + size * 2.2); key.target.position.copy(center);
+    key.position.set(center.x - size * 0.35, center.y - size * 0.55, center.z + size * 2.6); key.target.position.copy(center);
     const sc = key.shadow.camera; sc.left = sc.bottom = -size * 1.4; sc.right = sc.top = size * 1.4; sc.near = 10; sc.far = size * 6; sc.updateProjectionMatrix();
     rim.position.set(center.x + size, center.y + size * 1.5, center.z + size * 0.6);
     controls.target.copy(center); camT = 0;
@@ -162,6 +162,16 @@ export function createViewer(container, opt = {}) {
       controls.maxDistance = size * 5 * (1 + (v.zoomOut || 0));
     }
   }
+  // Ține baza produsului la groundPx pixeli deasupra marginii de jos a pânzei (pe linia raftului),
+  // oricum ar roti omul modelul. Punctul de sub centru stă pe axa de rotație, deci rotirea nu-l mută.
+  const gp = new THREE.Vector3();
+  function anchorGround() {
+    const w = container.clientWidth, h = container.clientHeight; if (!w || !h) return;
+    cam.clearViewOffset(); cam.updateMatrixWorld();
+    gp.set(center.x, center.y, groundZ).project(cam);
+    const y = (1 - gp.y) / 2 * h, want = h - opt.groundPx;
+    cam.setViewOffset(w, h, 0, y - want, w, h);
+  }
   function resize() {
     const w = container.clientWidth, h = container.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix();
@@ -178,7 +188,9 @@ export function createViewer(container, opt = {}) {
     if (!visible) return;
     const t = clock.getElapsedTime();
     anims.forEach(f => f(t));
-    controls.update(); renderer.render(scene, cam);
+    controls.update();
+    if (opt.groundPx != null && current) anchorGround();
+    renderer.render(scene, cam);
   });
   return { scene, renderer, camera: cam, controls, setModel, setExplode, setView, get size() { return size; } };
 }

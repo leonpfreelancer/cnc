@@ -15,7 +15,7 @@ async function initViewer(box) {
   let viewerMod;
   try { viewerMod = await import('./viewer.js'); }
   catch (e) { box.querySelector('.loading').textContent = 'Modelul 3D nu s-a putut încărca.'; return; }
-  const v = viewerMod.createViewer(box, { autoRotate: true });
+  const v = viewerMod.createViewer(box, { autoRotate: true, groundPx: box.dataset.ground ? Number(box.dataset.ground) : null });
   const loading = box.querySelector('.loading');
   const state = { explode: 0 };
 

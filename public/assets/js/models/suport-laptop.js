@@ -35,7 +35,7 @@ export async function build() {
   let lapOn = false;
   return {
     objects: objs,
-    view: { az: -60, el: 24, dist: 3.0 },
+    view: { az: -60, el: 24, dist: 3.5 },
     onExplode: t => { root.visible = lapOn && t < 0.02; },
     controls: [
       { type: 'toggle', label: 'Cu laptop 16"', value: false, set: v => { lapOn = v; root.visible = v; } },
